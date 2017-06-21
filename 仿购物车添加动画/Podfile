@@ -1,0 +1,6 @@
+xcodeproj ‘仿购物车添加动画.xcodeproj'
+platform :ios, ‘8.0’
+target '仿购物车添加动画' do
+pod "Masonry"
+pod "MJExtension"
+end

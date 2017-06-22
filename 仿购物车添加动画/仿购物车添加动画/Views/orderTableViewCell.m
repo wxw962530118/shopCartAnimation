@@ -7,7 +7,7 @@
 //
 
 #import "orderTableViewCell.h"
-
+#import "GoodsModel.h"
 @interface orderTableViewCell ()
 /**左边示意条*/
 @property (nonatomic, strong) UIView * leftLineView;
@@ -70,7 +70,7 @@
         [_addButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView.mas_right).offset(-10);
             make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(27, 27));
+            make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
     }
 }
@@ -97,7 +97,7 @@
         [_subtractButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_currentCountLabel.mas_left).offset(-10);
             make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(27, 27));
+            make.size.mas_equalTo(CGSizeMake(20, 20));
         }];
     }
 }
@@ -105,14 +105,19 @@
 -(void)addCurrentPriceLabel{
     if (!_currentPriceLabel) {
         _currentPriceLabel = [[UILabel alloc]init];
-        _currentPriceLabel.text = @"$1223";
-        _currentPriceLabel.textColor = RColor(253,103, 105);
+        _currentPriceLabel.text = @"￥333";
+        _currentPriceLabel.textColor = RColor(252,42, 28);
         [self.contentView addSubview:_currentPriceLabel];
         [_currentPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_subtractButton.mas_left).offset(-30);
             make.centerY.equalTo(self.contentView);
         }];
     }
+}
+
+
+-(void)setDataWithModel:(GoodsModel *)model{
+    
 }
 
 #pragma mark --- 加号按钮事件

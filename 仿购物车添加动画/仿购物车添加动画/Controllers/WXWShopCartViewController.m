@@ -23,12 +23,11 @@
 @property (nonatomic, assign) BOOL          isRelate;
 /**底部的购物车*/
 @property (nonatomic, strong) ShopCartBottomView * bottomView;
-/**订单数据*/
-@property (nonatomic, strong) NSMutableArray * orderArray;
 /**订单所选总数量*/
 @property (nonatomic, assign) NSInteger totalOrderCount;
 /** 订单总价 */
 @property (assign, nonatomic) double totalPrice;
+
 @end
 
 @implementation WXWShopCartViewController
@@ -83,14 +82,29 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    __weak typeof(self) weakSelf = self;
     if (tableView == self.leftTableView) {
         leftTableViewCell * cell = [leftTableViewCell cellWithTableView:tableView];
         [cell setDataWithModel:self.dataArray[indexPath.row]];
         return cell;
-        return cell;
     }else{
         rightTableViewCell * cell = [rightTableViewCell cellWithTableView:tableView];
+        self.dataArray[indexPath.section].goodsArray[indexPath.row].orderArray = self.orderArray;
         [cell setDataWithModel:self.dataArray[indexPath.section].goodsArray[indexPath.row]];
+        cell.callBack = ^(AddSubtractnType type) {
+            switch (type) {
+                case AddSubtractnType_Add:
+                    //处理点击添加按钮事件
+                     [weakSelf addBtnClickd:indexPath];
+                    break;
+                case AddSubtractnType_Subtractn:
+                    //处理点击减按钮事件
+                    [weakSelf subtractnBtnClickd:indexPath];
+                    break;
+                default:
+                    break;
+            }
+        };
         return cell;
     }
 }
@@ -219,8 +233,35 @@
 -(ShopCartBottomView *)bottomView{
     if (!_bottomView) {
         _bottomView = [[ShopCartBottomView alloc]initWithFrame:CGRectMake(0,ScreenHeight - bottomToolBarH, ScreenWidth, bottomToolBarH) shopCartSuperView:self.view];
+        _bottomView.orderDataArray = self.orderArray;
     }
     return _bottomView;
+}
+
+
+#pragma mark --- 购物车右侧列表的增加删减按钮事件
+-(void)addBtnClickd:(NSIndexPath *)indexPath{
+    GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
+    if ([self.orderArray containsObject:model]) {
+        //如果当前存在某个商品 就不用再添加
+        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }else{
+        [self.orderArray addObject:model];
+        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
+    self.bottomView.orderDataArray = self.orderArray;
+    NSLog(@"增加--%@",self.orderArray);
+}
+
+-(void)subtractnBtnClickd:(NSIndexPath *)indexPath{
+    //将商品从购物车中移除
+    GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
+    if (model.orderCount == 0) {
+        [self.orderArray removeObject:model];
+        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    }
+    self.bottomView.orderDataArray = self.orderArray;
+    NSLog(@"删除--%@",self.orderArray);
 }
 
 @end

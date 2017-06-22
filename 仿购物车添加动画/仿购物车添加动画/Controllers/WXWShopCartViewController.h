@@ -9,5 +9,6 @@
 #import <UIKit/UIKit.h>
 
 @interface WXWShopCartViewController : UIViewController
-
+/**订单数据 实际项目中需要从其他页面传入*/
+@property (nonatomic, strong) NSMutableArray * orderArray;
 @end

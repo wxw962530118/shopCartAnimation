@@ -20,6 +20,10 @@
 @property (nonatomic, strong) UILabel * totalPriceLabel;
 /**当前的父视图*/
 @property (nonatomic, strong) UIView * shopCartSuperView;
+/**订单总价*/
+@property (nonatomic, assign) double orderSum;
+/**订单列表数量*/
+@property (nonatomic, assign) NSInteger orderCount;
 
 @end
 
@@ -28,7 +32,6 @@
 -(instancetype)initWithFrame:(CGRect)frame shopCartSuperView:(UIView *)shopCartSuperView{
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor orangeColor];
         self.shopCartSuperView = shopCartSuperView;
         [self loadWithComponents];
     }
@@ -38,12 +41,14 @@
 -(void)loadWithComponents{
     [self addTopLineView];
     [self addShopCartButton];
+    [self addTotalPriceLabel];
+    [self addCommitButton];
 }
 
 -(void)addTopLineView{
     if (!_topLineView) {
         _topLineView = [[UIView alloc]init];
-        _topLineView.backgroundColor = RColor(33, 33, 33);
+        _topLineView.backgroundColor = RColor(55, 55, 55);
         [self addSubview:_topLineView];
         [_topLineView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(self);
@@ -68,26 +73,84 @@
     }
 }
 
+-(void)addTotalPriceLabel{
+    if (!_totalPriceLabel) {
+        _totalPriceLabel = [[UILabel alloc]init];
+        [self addSubview:_totalPriceLabel];
+        [_totalPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(72);
+            make.centerY.equalTo(self);
+        }];
+    }
+}
+
+-(void)addCommitButton{
+    if (!_commitButton) {
+        _commitButton = [[UIButton alloc]init];
+        _commitButton.layer.cornerRadius = 5;
+        _commitButton.layer.masksToBounds = YES;
+        _commitButton.titleLabel.font = UIFont(15);
+        [self addSubview:_commitButton];
+        [_commitButton mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.right.equalTo(self.mas_right).offset(-10);
+            make.centerY.equalTo(self);
+            make.size.mas_equalTo(CGSizeMake(84, 30));
+        }];
+    }
+}
+
+-(void)setOrderDataArray:(NSMutableArray<GoodsModel *> *)orderDataArray{
+    _orderDataArray = orderDataArray;
+    for (GoodsModel * model in orderDataArray) {
+        self.orderSum += model.goodsSalePrice;
+    }
+    self.orderCount = orderDataArray.count;
+    if (!orderDataArray.count) {
+        _commitButton.userInteractionEnabled = _shopCartButton.userInteractionEnabled = NO;
+        _totalPriceLabel.text = @"购物车空空如也~";
+        _totalPriceLabel.textColor = RColor(114, 114, 114);
+        _totalPriceLabel.font = UIFont(14);
+        _commitButton.backgroundColor = RColor(114, 114, 114);
+        [_commitButton setTitle:@"请选择商品" forState:UIControlStateNormal];
+        [_commitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    }else{
+        _commitButton.backgroundColor = RColor(252,42, 28);
+        [_commitButton setTitle:@"选好了" forState:UIControlStateNormal];
+        [_commitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        _totalPriceLabel.text = [NSString stringWithFormat:@"共:￥%.2f",self.orderSum];
+        _totalPriceLabel.textColor = RColor(252,42, 28);
+        _totalPriceLabel.font = UIFont(17);
+        _commitButton.userInteractionEnabled = _shopCartButton.userInteractionEnabled = YES;
+    }
+}
 
 #pragma mark --- 点击了购物车按钮
 -(void)shopCartButtonClick{
-    [_shopCartButton.superview layoutIfNeeded];
+    [self.shopCartSuperView layoutIfNeeded];
     [UIView animateWithDuration:.6f animations:^{
         [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(self.superview.mas_bottom).offset(-10- 3 * 44 - 52);
+            make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10 - (orderViewMaxHeight >= self.orderCount * 44 ? self.orderCount * 44 : orderViewMaxHeight) - bottomToolBarH);
         }];
-         [_shopCartButton.superview layoutIfNeeded];
+        
+        [_totalPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+            make.left.equalTo(self.mas_left).offset(10);
+        }];
+        [self.shopCartSuperView layoutIfNeeded];
     }];
     
     __weak typeof(self) weakSelf = self;
-    [ShopCartView ShowShopCartViewWithShopCartSuperView:self.shopCartSuperView ShopCartViewBlock:^(NSNumber * selectedCount) {
+    [ShopCartView ShowShopCartViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount) {
         if (![selectedCount integerValue]) {
-            [_shopCartButton.superview layoutIfNeeded];
+            [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{
                 [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.bottom.equalTo(weakSelf.superview.mas_bottom).offset(-10);
+                    make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10);
                 }];
-                [_shopCartButton.superview layoutIfNeeded];
+                
+                [_totalPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.left.equalTo(weakSelf.mas_left).offset(72);
+                }];
+                [weakSelf.shopCartSuperView layoutIfNeeded];
             }];
         }
     }];
@@ -95,7 +158,7 @@
 }
 
 -(void)dealloc{
-
+    
 }
 
 @end

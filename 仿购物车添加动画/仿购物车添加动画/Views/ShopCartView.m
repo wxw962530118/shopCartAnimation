@@ -8,30 +8,31 @@
 
 #import "ShopCartView.h"
 #import "orderTableViewCell.h"
+
 @interface ShopCartView ()<UITableViewDelegate,UITableViewDataSource>
 /**表格*/
 @property (nonatomic, strong) UITableView * orderTableView;
-/**订单数据源*/
-@property (nonatomic, strong) NSMutableArray * orderArray;
 /***/
 @property (nonatomic, copy) ShopCartViewBlock Block;
 /***/
 @property (nonatomic, strong) UIView * shopCartSuperView;
-
+/**订单数据源*/
+@property (nonatomic, strong) NSMutableArray<GoodsModel *> * goodsModelArray;
 @end
 
 @implementation ShopCartView
 
-+(instancetype )ShowShopCartViewWithShopCartSuperView:(UIView *)shopCartSuperView ShopCartViewBlock:(ShopCartViewBlock)callBack{
-    ShopCartView * view = [[ShopCartView alloc]initWithShopCartSuperView:shopCartSuperView ShopCartViewBlock:callBack];
++(instancetype )ShowShopCartViewWithShopCartSuperView:(UIView *)shopCartSuperView  goodsModel:(NSMutableArray <GoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
+    ShopCartView * view = [[ShopCartView alloc]initWithShopCartSuperView:shopCartSuperView goodsModel:goodsModelArray ShopCartViewBlock:callBack];
     return view;
 }
 
--(instancetype )initWithShopCartSuperView:(UIView *)shopCartSuperView ShopCartViewBlock:(ShopCartViewBlock)callBack{
+-(instancetype )initWithShopCartSuperView:(UIView *)shopCartSuperView goodsModel:(NSMutableArray <GoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
     self = [super init];
     if (self) {
         self.Block = callBack;
         self.shopCartSuperView = shopCartSuperView;
+        self.goodsModelArray = goodsModelArray;
         [self loadWithComponents];
     }
     return self;
@@ -48,9 +49,10 @@
     }];
     
     [self.shopCartSuperView addSubview:self.orderTableView];
+    self.orderTableView.scrollEnabled = !(orderViewMaxHeight >= self.goodsModelArray.count * 44);
     [self.orderTableView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.width.mas_equalTo(ScreenWidth);
-        make.height.mas_equalTo(3 * 44);
+        make.height.mas_equalTo(orderViewMaxHeight >= self.goodsModelArray.count * 44 ? self.goodsModelArray.count * 44 : orderViewMaxHeight);
         make.bottom.equalTo(self.orderTableView.superview.mas_bottom).offset(-bottomToolBarH);
     }];
 
@@ -76,11 +78,12 @@
 
 #pragma mark  --- 表格代理及数据源
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 3;
+    return self.goodsModelArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     orderTableViewCell * cell = [orderTableViewCell cellWithTableView:tableView];
+    [cell setDataWithModel:self.goodsModelArray[indexPath.row]];
     return cell;
 }
 
@@ -102,7 +105,7 @@
         self.orderTableView.alpha = 0;
         self.alpha = 0;
     } completion:^(BOOL finished) {
-        [self removeFromSuperview];
+        [self.orderTableView removeFromSuperview];
     }];
 }
 

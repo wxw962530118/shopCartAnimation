@@ -22,6 +22,8 @@
 
 #define  bottomToolBarH  50
 
+#define  orderViewMaxHeight 350
+
 #define getRootView [UIApplication sharedApplication].delegate.window
 
 #define  RColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]

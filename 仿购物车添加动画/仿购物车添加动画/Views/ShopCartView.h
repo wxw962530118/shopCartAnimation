@@ -7,11 +7,18 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GoodsModel.h"
 typedef void(^ShopCartViewBlock)(NSNumber * selectedCount);
 
 @interface ShopCartView : UIView
 
-+(instancetype)ShowShopCartViewWithShopCartSuperView:(UIView *)shopCartSuperView ShopCartViewBlock:(ShopCartViewBlock)callBack;
+/**
+ 构建订单页面
+
+ @param shopCartSuperView 订单页面所在父视图
+ @param goodsModelArray   订单模型数组
+ @param callBack 点击行的回调
+ */
++(instancetype)ShowShopCartViewWithShopCartSuperView:(UIView *)shopCartSuperView goodsModel:(NSMutableArray <GoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack;
 
 @end

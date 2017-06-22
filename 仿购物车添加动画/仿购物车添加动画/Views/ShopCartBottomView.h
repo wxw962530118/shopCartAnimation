@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "GoodsModel.h"
 @interface ShopCartBottomView : UIView
 
 /**
@@ -17,5 +17,8 @@
  @param shopCartSuperView 当前view所在父视图
  */
 -(instancetype)initWithFrame:(CGRect)frame shopCartSuperView:(UIView *)shopCartSuperView;
+
+/**从外部传入的订单模型数组*/
+@property (nonatomic, strong) NSMutableArray <GoodsModel *> * orderDataArray;
 
 @end

@@ -7,7 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
+typedef NS_ENUM(NSInteger , AddSubtractnType){
+    AddSubtractnType_Add,
+    AddSubtractnType_Subtractn
+};
+
+typedef void(^AddSubtractnClickCallBack)(AddSubtractnType type);
 
 @interface rightTableViewCell : UITableViewCell
+/***/
+@property (nonatomic, copy) AddSubtractnClickCallBack callBack;
 
 @end

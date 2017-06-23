@@ -12,7 +12,14 @@ typedef NS_ENUM(NSInteger , AddSubtractnType){
     AddSubtractnType_Subtractn
 };
 
-typedef void(^AddSubtractnClickCallBack)(AddSubtractnType type);
+
+/**
+ 加减按钮的回调
+
+ @param type 点击按钮的类型
+ @param sender 被点击对象
+ */
+typedef void(^AddSubtractnClickCallBack)(AddSubtractnType type,UIButton * sender);
 
 @interface rightTableViewCell : UITableViewCell
 /***/

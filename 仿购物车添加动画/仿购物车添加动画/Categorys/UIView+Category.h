@@ -1,14 +1,14 @@
 //
-//  UIView+Extension.h
-//  黑马微博2期
+//  UIView+Category.h
+//  仿购物车添加动画
 //
-//  Created by apple on 14-10-7.
-//  Copyright (c) 2014年 heima. All rights reserved.
+//  Created by 王新伟 on 2017/6/23.
+//  Copyright © 2017年 王新伟. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-@interface UIView (Extension)
+@interface UIView (Category)
 @property (nonatomic, assign) CGFloat x;
 @property (nonatomic, assign) CGFloat y;
 @property (nonatomic, assign) CGFloat centerX;

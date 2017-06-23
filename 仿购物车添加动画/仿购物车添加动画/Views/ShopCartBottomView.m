@@ -63,6 +63,7 @@
     if (!_shopCartButton) {
         _shopCartButton = [[UIButton alloc]init];
         [_shopCartButton setBackgroundImage:[UIImage imageNamed:@"gouwuche"] forState:UIControlStateNormal];
+        _shopCartButton.tag = 1000;
         [_shopCartButton addTarget:self action:@selector(shopCartButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self.shopCartSuperView addSubview:_shopCartButton];
         [_shopCartButton mas_makeConstraints:^(MASConstraintMaker *make) {

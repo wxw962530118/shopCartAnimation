@@ -7,10 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AC22EEE51EFB6A8A00EC0513 /* UIView+Extension.m in Sources */ = {isa = PBXBuildFile; fileRef = AC22EEE41EFB6A8A00EC0513 /* UIView+Extension.m */; };
 		ACD3FDEC1EFA40430046EB19 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD3FDEA1EFA40430046EB19 /* Main.storyboard */; };
 		ACD3FDEE1EFA40430046EB19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACD3FDED1EFA40430046EB19 /* Assets.xcassets */; };
 		ACD3FDF11EFA40430046EB19 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = ACD3FDEF1EFA40430046EB19 /* LaunchScreen.storyboard */; };
+		ACE722801EFCDED800E6B86D /* UIView+Category.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE7227F1EFCDED800E6B86D /* UIView+Category.m */; };
+		ACE722831EFCE5A600E6B86D /* SCThrowLineTools.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE722821EFCE5A600E6B86D /* SCThrowLineTools.m */; };
 		ACE88E591EFA44F70082EAA6 /* WXWShopCartViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE88E581EFA44F70082EAA6 /* WXWShopCartViewController.m */; };
 		ACE88E5C1EFA451A0082EAA6 /* GoodsCategory.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE88E5B1EFA451A0082EAA6 /* GoodsCategory.m */; };
 		ACE88E5F1EFA45260082EAA6 /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE88E5E1EFA45260082EAA6 /* GoodsModel.m */; };
@@ -31,13 +32,15 @@
 		35ED7E22FF77F4814303F04A /* libPods-仿购物车添加动画.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-仿购物车添加动画.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		546D418DF559E9FF36B11929 /* Pods-仿购物车添加动画.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-仿购物车添加动画.release.xcconfig"; path = "Pods/Target Support Files/Pods-仿购物车添加动画/Pods-仿购物车添加动画.release.xcconfig"; sourceTree = "<group>"; };
 		91AED4672DD93E323037D430 /* Pods-仿购物车添加动画.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-仿购物车添加动画.debug.xcconfig"; path = "Pods/Target Support Files/Pods-仿购物车添加动画/Pods-仿购物车添加动画.debug.xcconfig"; sourceTree = "<group>"; };
-		AC22EEE31EFB6A8A00EC0513 /* UIView+Extension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Extension.h"; sourceTree = "<group>"; };
-		AC22EEE41EFB6A8A00EC0513 /* UIView+Extension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Extension.m"; sourceTree = "<group>"; };
 		ACD3FDDE1EFA40430046EB19 /* 仿购物车添加动画.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "仿购物车添加动画.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ACD3FDEB1EFA40430046EB19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		ACD3FDED1EFA40430046EB19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		ACD3FDF01EFA40430046EB19 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		ACD3FDF21EFA40430046EB19 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		ACE7227E1EFCDED800E6B86D /* UIView+Category.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+Category.h"; sourceTree = "<group>"; };
+		ACE7227F1EFCDED800E6B86D /* UIView+Category.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+Category.m"; sourceTree = "<group>"; };
+		ACE722811EFCE5A600E6B86D /* SCThrowLineTools.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SCThrowLineTools.h; sourceTree = "<group>"; };
+		ACE722821EFCE5A600E6B86D /* SCThrowLineTools.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SCThrowLineTools.m; sourceTree = "<group>"; };
 		ACE88E571EFA44F70082EAA6 /* WXWShopCartViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WXWShopCartViewController.h; sourceTree = "<group>"; };
 		ACE88E581EFA44F70082EAA6 /* WXWShopCartViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WXWShopCartViewController.m; sourceTree = "<group>"; };
 		ACE88E5A1EFA451A0082EAA6 /* GoodsCategory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsCategory.h; sourceTree = "<group>"; };
@@ -133,6 +136,8 @@
 		ACE88E511EFA44140082EAA6 /* Tools */ = {
 			isa = PBXGroup;
 			children = (
+				ACE722811EFCE5A600E6B86D /* SCThrowLineTools.h */,
+				ACE722821EFCE5A600E6B86D /* SCThrowLineTools.m */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -185,10 +190,10 @@
 		ACE88E601EFA46120082EAA6 /* Categorys */ = {
 			isa = PBXGroup;
 			children = (
-				AC22EEE31EFB6A8A00EC0513 /* UIView+Extension.h */,
-				AC22EEE41EFB6A8A00EC0513 /* UIView+Extension.m */,
 				ACE88E611EFA465F0082EAA6 /* UITableViewCell+Cell.h */,
 				ACE88E621EFA465F0082EAA6 /* UITableViewCell+Cell.m */,
+				ACE7227E1EFCDED800E6B86D /* UIView+Category.h */,
+				ACE7227F1EFCDED800E6B86D /* UIView+Category.m */,
 			);
 			path = Categorys;
 			sourceTree = "<group>";
@@ -347,12 +352,13 @@
 			files = (
 				ACE88E791EFA4D330082EAA6 /* rightTableViewCell.m in Sources */,
 				ACE88E721EFA49EF0082EAA6 /* ViewController.m in Sources */,
-				AC22EEE51EFB6A8A00EC0513 /* UIView+Extension.m in Sources */,
 				ACE88E5F1EFA45260082EAA6 /* GoodsModel.m in Sources */,
 				ACE88E631EFA465F0082EAA6 /* UITableViewCell+Cell.m in Sources */,
+				ACE722831EFCE5A600E6B86D /* SCThrowLineTools.m in Sources */,
 				ACE88E711EFA49EF0082EAA6 /* AppDelegate.m in Sources */,
 				ACE88E761EFA4D290082EAA6 /* leftTableViewCell.m in Sources */,
 				ACE88E5C1EFA451A0082EAA6 /* GoodsCategory.m in Sources */,
+				ACE722801EFCDED800E6B86D /* UIView+Category.m in Sources */,
 				ACE88E821EFA65CF0082EAA6 /* ShopCartBottomView.m in Sources */,
 				ACE88E6B1EFA499A0082EAA6 /* main.m in Sources */,
 				ACE88E7C1EFA4D440082EAA6 /* orderTableViewCell.m in Sources */,

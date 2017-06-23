@@ -120,7 +120,7 @@
     if (!_addButton) {
         _addButton = [[UIButton alloc]init];
         [_addButton setBackgroundImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-        [_addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [_addButton addTarget:self action:@selector(addButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_addButton];
         [_addButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.contentView.mas_right).offset(-10);
@@ -147,7 +147,7 @@
     if (!_subtractButton) {
         _subtractButton = [[UIButton alloc]init];
         [_subtractButton setBackgroundImage:[UIImage imageNamed:@"sub"] forState:UIControlStateNormal];
-        [_subtractButton addTarget:self action:@selector(subtractButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        [_subtractButton addTarget:self action:@selector(subtractButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         [self.contentView addSubview:_subtractButton];
         [_subtractButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(_currentCountLabel.mas_left).offset(-10);
@@ -196,7 +196,7 @@
 }
 
 #pragma mark --- 加号按钮事件
--(void)addButtonClick{
+-(void)addButtonClick:(UIButton *)sender{
     self.goodModel.goodsStock--;
     self.goodModel.orderCount++;
     _currentCountLabel.text = [NSString stringWithFormat:@"%d",self.goodModel.orderCount];
@@ -206,12 +206,12 @@
         _addButton.enabled = NO;
     }
     if (self.callBack) {
-        self.callBack(AddSubtractnType_Add);
+        self.callBack(AddSubtractnType_Add,sender);
     }
 }
 
 #pragma mark --- 减号按钮事件
--(void)subtractButtonClick{
+-(void)subtractButtonClick:(UIButton *)sender{
     self.goodModel.goodsStock++;
     self.goodModel.orderCount--;
     _soldoutImageView.hidden = YES;
@@ -227,7 +227,7 @@
     }
     
     if (self.callBack) {
-        self.callBack(AddSubtractnType_Subtractn);
+        self.callBack(AddSubtractnType_Subtractn,sender);
     }
 }
 

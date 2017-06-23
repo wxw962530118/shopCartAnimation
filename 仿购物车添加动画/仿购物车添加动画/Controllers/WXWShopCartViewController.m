@@ -12,6 +12,7 @@
 #import "leftTableViewCell.h"
 #import "rightTableViewCell.h"
 #import "ShopCartBottomView.h"
+#import "SCThrowLineTools.h"
 @interface WXWShopCartViewController ()<UITableViewDelegate,UITableViewDataSource>
 /**左边的商品类别*/
 @property (nonatomic, strong) UITableView * leftTableView;
@@ -27,7 +28,8 @@
 @property (nonatomic, assign) NSInteger totalOrderCount;
 /** 订单总价 */
 @property (assign, nonatomic) double totalPrice;
-
+/**点击添加按钮抛出的view*/
+@property (nonatomic, strong) UIImageView * throwImageView;
 @end
 
 @implementation WXWShopCartViewController
@@ -91,15 +93,15 @@
         rightTableViewCell * cell = [rightTableViewCell cellWithTableView:tableView];
         self.dataArray[indexPath.section].goodsArray[indexPath.row].orderArray = self.orderArray;
         [cell setDataWithModel:self.dataArray[indexPath.section].goodsArray[indexPath.row]];
-        cell.callBack = ^(AddSubtractnType type) {
+        cell.callBack = ^(AddSubtractnType type , UIButton * sender) {
             switch (type) {
                 case AddSubtractnType_Add:
                     //处理点击添加按钮事件
-                     [weakSelf addBtnClickd:indexPath];
+                    [weakSelf addBtnClickd:indexPath clickBtn:sender];
                     break;
                 case AddSubtractnType_Subtractn:
                     //处理点击减按钮事件
-                    [weakSelf subtractnBtnClickd:indexPath];
+                    [weakSelf subtractnBtnClickd:indexPath clickBtn:sender];
                     break;
                 default:
                     break;
@@ -238,9 +240,37 @@
     return _bottomView;
 }
 
+#pragma mark --- 懒加载控件
+-(UIImageView *)throwImageView{
+    if (!_throwImageView) {
+        _throwImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+        _throwImageView.image = [UIImage imageNamed:@"adddetail"];
+        _throwImageView.layer.cornerRadius = 10;
+    }
+    return _throwImageView;
+}
+
 
 #pragma mark --- 购物车右侧列表的增加删减按钮事件
--(void)addBtnClickd:(NSIndexPath *)indexPath{
+-(void)addBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
+    UIButton * shopCartBtn = (UIButton *)[self.view viewWithTag:1000];
+    rightTableViewCell * cell = [self.rightTableView cellForRowAtIndexPath:indexPath];
+    CGRect startRect = [cell convertRect:sender.frame toView:self.view];
+    CGRect endRect = [self.view convertRect:shopCartBtn.frame toView:self.view];
+    [self.view addSubview:self.throwImageView];
+    [SCThrowLineTools createSCThrowLineWithObject:self.throwImageView from:startRect.origin to:endRect.origin animationFinishedBlock:^{
+        [self.throwImageView removeFromSuperview];
+        [UIView animateWithDuration:0.1 animations:^{
+            shopCartBtn.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        } completion:^(BOOL finished) {
+            [UIView animateWithDuration:0.1 animations:^{
+                shopCartBtn.transform = CGAffineTransformMakeScale(1, 1);
+            } completion:^(BOOL finished) {
+                
+            }];
+        }];
+    }];
+    
     GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
     if ([self.orderArray containsObject:model]) {
         //如果当前存在某个商品 就不用再添加
@@ -251,9 +281,10 @@
     }
     self.bottomView.orderDataArray = self.orderArray;
     NSLog(@"增加--%@",self.orderArray);
+    
 }
 
--(void)subtractnBtnClickd:(NSIndexPath *)indexPath{
+-(void)subtractnBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
     //将商品从购物车中移除
     GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
     if (model.orderCount == 0) {

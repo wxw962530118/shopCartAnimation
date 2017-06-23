@@ -21,7 +21,8 @@
 @property (nonatomic, strong) UIButton * subtractButton;
 /**当前选择的数量*/
 @property (nonatomic, strong) UILabel * currentCountLabel;
-
+/***/
+@property (nonatomic, strong) GoodsModel * goodsModel;
 @end
 
 @implementation orderTableViewCell
@@ -53,9 +54,12 @@
         _nameLabel = [[UILabel alloc]init];
         _nameLabel.textColor = RColor(33,33,33);
         _nameLabel.text = @"生产菜市场";
+        _nameLabel.numberOfLines = 2;
+        _nameLabel.font = UIFont(16);
         [self.contentView addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_leftLineView.mas_right).offset(5);
+            make.width.mas_equalTo(150);
             make.centerY.equalTo(self.contentView);
         }];
     }
@@ -106,6 +110,7 @@
     if (!_currentPriceLabel) {
         _currentPriceLabel = [[UILabel alloc]init];
         _currentPriceLabel.text = @"￥333";
+        _currentPriceLabel.textAlignment = NSTextAlignmentLeft;
         _currentPriceLabel.textColor = RColor(252,42, 28);
         [self.contentView addSubview:_currentPriceLabel];
         [_currentPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -117,7 +122,10 @@
 
 
 -(void)setDataWithModel:(GoodsModel *)model{
-    
+    self.goodsModel = model;
+    _nameLabel.text = model.goodsName;
+    _currentCountLabel.text = [NSString stringWithFormat:@"%d",model.orderCount];
+    _currentPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",model.goodsSalePrice];
 }
 
 #pragma mark --- 加号按钮事件

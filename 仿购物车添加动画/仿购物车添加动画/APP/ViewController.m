@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "WXWShopCartViewController.h"
+#import "ShopCartViewController.h"
 @interface ViewController ()
 
 @end
@@ -20,7 +20,7 @@
 }
 
 - (IBAction)goShopping:(id)sender {
-    WXWShopCartViewController * vc = [[WXWShopCartViewController alloc]init];
+    ShopCartViewController * vc = [[ShopCartViewController alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

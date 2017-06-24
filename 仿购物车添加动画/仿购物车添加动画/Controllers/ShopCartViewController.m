@@ -1,25 +1,24 @@
 //
-//  WXWShopCartViewController.m
+//  ShopCartViewController.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "WXWShopCartViewController.h"
-#import "GoodsCategory.h"
-#import <MJExtension.h>
-#import "leftTableViewCell.h"
-#import "rightTableViewCell.h"
+#import "ShopCartViewController.h"
+#import "ShopCartGoodsCategoryCell.h"
+#import "ShopCartGoodsListCell.h"
 #import "ShopCartBottomView.h"
-#import "SCThrowLineTools.h"
-@interface WXWShopCartViewController ()<UITableViewDelegate,UITableViewDataSource>
+#import "ShopCartThrowLineTools.h"
+@interface ShopCartViewController ()
+<UITableViewDelegate,UITableViewDataSource>
 /**左边的商品类别*/
 @property (nonatomic, strong) UITableView * leftTableView;
 /**右边的详细商品内容*/
 @property (nonatomic, strong) UITableView * rightTableView;
 /**本地解析的数据源*/
-@property (nonatomic, strong) NSArray <GoodsCategory *> * dataArray;
+@property (nonatomic, strong) NSArray <ShopCartGoodsCategoryModel *> * dataArray;
 /**是否关联*/
 @property (nonatomic, assign) BOOL          isRelate;
 /**底部的购物车*/
@@ -30,10 +29,10 @@
 @property (assign, nonatomic) double totalPrice;
 /**点击添加按钮抛出的view*/
 @property (nonatomic, strong) UIImageView * throwImageView;
+
 @end
 
-@implementation WXWShopCartViewController
-
+@implementation ShopCartViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
     [self loadData];
@@ -43,6 +42,7 @@
 -(void)createUI{
     self.view.backgroundColor = [UIColor whiteColor];
     self.automaticallyAdjustsScrollViewInsets = NO;
+    self.navigationItem.title = @"购物车";
     [self.view addSubview:self.bottomView];
     [self.view sendSubviewToBack:self.bottomView];
 }
@@ -55,7 +55,7 @@
     NSArray *arr = [NSJSONSerialization JSONObjectWithData:data
                                                    options:NSJSONReadingAllowFragments
                                                      error:&error];
-    self.dataArray = [GoodsCategory mj_objectArrayWithKeyValuesArray:arr];
+    self.dataArray = [ShopCartGoodsCategoryModel mj_objectArrayWithKeyValuesArray:arr];
     [self.leftTableView reloadData];
     [self.rightTableView reloadData];
     //默认选中
@@ -64,7 +64,6 @@
         NSLog(@"解析出错:%@", error.description);
     }
 }
-
 
 #pragma mark  --- 表格代理及数据源
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
@@ -86,11 +85,11 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     __weak typeof(self) weakSelf = self;
     if (tableView == self.leftTableView) {
-        leftTableViewCell * cell = [leftTableViewCell cellWithTableView:tableView];
+        ShopCartGoodsCategoryCell * cell = [ShopCartGoodsCategoryCell cellWithTableView:tableView];
         [cell setDataWithModel:self.dataArray[indexPath.row]];
         return cell;
     }else{
-        rightTableViewCell * cell = [rightTableViewCell cellWithTableView:tableView];
+        ShopCartGoodsListCell * cell = [ShopCartGoodsListCell cellWithTableView:tableView];
         self.dataArray[indexPath.section].goodsArray[indexPath.row].orderArray = self.orderArray;
         [cell setDataWithModel:self.dataArray[indexPath.section].goodsArray[indexPath.row]];
         cell.callBack = ^(AddSubtractnType type , UIButton * sender) {
@@ -134,7 +133,7 @@
 //返回组头部的那块View
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
     if (tableView == self.rightTableView) {
-        UIView *view = [[UIView alloc]init];
+        UIView * view = [[UIView alloc]init];
         view.frame = CGRectMake(0, 0, ScreenWidth, 30);
         view.backgroundColor = RColor(240, 240, 240);
         [view setAlpha:0.8];
@@ -151,7 +150,7 @@
     if (tableView == self.leftTableView) {
         _isRelate = NO;
         [self.leftTableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-        //点击了左边的cell，让右边的tableView跟着滚动
+        //点击了左边的cell 让右边的tableView跟着滚动
         [self.rightTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }else{
         [self.rightTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -250,28 +249,28 @@
     return _throwImageView;
 }
 
-
 #pragma mark --- 购物车右侧列表的增加删减按钮事件
 -(void)addBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
     UIButton * shopCartBtn = (UIButton *)[self.view viewWithTag:1000];
-    rightTableViewCell * cell = [self.rightTableView cellForRowAtIndexPath:indexPath];
+    ShopCartGoodsListCell * cell = [self.rightTableView cellForRowAtIndexPath:indexPath];
     CGRect startRect = [cell convertRect:sender.frame toView:self.view];
     CGRect endRect = [self.view convertRect:shopCartBtn.frame toView:self.view];
     [self.view addSubview:self.throwImageView];
-    [SCThrowLineTools createSCThrowLineWithObject:self.throwImageView from:startRect.origin to:endRect.origin animationFinishedBlock:^{
-        [self.throwImageView removeFromSuperview];
+    __weak typeof(self) weakSelf = self;
+    [ShopCartThrowLineTools createSCThrowLineWithObject:self.throwImageView from:startRect.origin to:endRect.origin animationFinishedBlock:^{
+        [weakSelf.throwImageView removeFromSuperview];
         [UIView animateWithDuration:0.1 animations:^{
             shopCartBtn.transform = CGAffineTransformMakeScale(0.8, 0.8);
         } completion:^(BOOL finished) {
             [UIView animateWithDuration:0.1 animations:^{
                 shopCartBtn.transform = CGAffineTransformMakeScale(1, 1);
             } completion:^(BOOL finished) {
-                
+
             }];
         }];
     }];
     
-    GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
+    ShopCartGoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
     if ([self.orderArray containsObject:model]) {
         //如果当前存在某个商品 就不用再添加
         [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -281,12 +280,11 @@
     }
     self.bottomView.orderDataArray = self.orderArray;
     NSLog(@"增加--%@",self.orderArray);
-    
 }
 
 -(void)subtractnBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
     //将商品从购物车中移除
-    GoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
+    ShopCartGoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
     if (model.orderCount == 0) {
         [self.orderArray removeObject:model];
         [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
@@ -294,5 +292,4 @@
     self.bottomView.orderDataArray = self.orderArray;
     NSLog(@"删除--%@",self.orderArray);
 }
-
 @end

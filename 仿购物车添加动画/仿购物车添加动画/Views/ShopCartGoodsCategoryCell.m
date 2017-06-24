@@ -1,22 +1,22 @@
 //
-//  leftTableViewCell.m
+//  ShopCartGoodsCategoryCell.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "leftTableViewCell.h"
-#import "GoodsCategory.h"
+#import "ShopCartGoodsCategoryCell.h"
 
-@interface leftTableViewCell ()
+@interface ShopCartGoodsCategoryCell ()
 /**左侧示意条*/
 @property (nonatomic, strong) UIView * leftLineView;
 /**选中背景*/
 @property (nonatomic, strong) UIView * selectedBgView;
+
 @end
 
-@implementation leftTableViewCell
+@implementation ShopCartGoodsCategoryCell
 
 -(void)loadWithComponents{
     self.backgroundColor = RColor(240, 240, 240);
@@ -46,8 +46,9 @@
     }
 }
 
--(void)setDataWithModel:(GoodsCategory *)model{
+-(void)setDataWithModel:(ShopCartGoodsCategoryModel *)model{
     self.textLabel.text = model.goodsCategoryName;
 }
+
 
 @end

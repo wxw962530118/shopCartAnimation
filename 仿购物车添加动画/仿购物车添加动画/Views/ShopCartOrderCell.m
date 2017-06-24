@@ -1,14 +1,14 @@
 //
-//  orderTableViewCell.m
+//  ShopCartOrderCell.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "orderTableViewCell.h"
-#import "GoodsModel.h"
-@interface orderTableViewCell ()
+#import "ShopCartOrderCell.h"
+
+@interface ShopCartOrderCell ()
 /**左边示意条*/
 @property (nonatomic, strong) UIView * leftLineView;
 /**名称*/
@@ -22,10 +22,11 @@
 /**当前选择的数量*/
 @property (nonatomic, strong) UILabel * currentCountLabel;
 /***/
-@property (nonatomic, strong) GoodsModel * goodsModel;
+@property (nonatomic, strong) ShopCartGoodsModel * goodsModel;
+
 @end
 
-@implementation orderTableViewCell
+@implementation ShopCartOrderCell
 
 -(void)loadWithComponents{
     [self addLeftLineView];
@@ -120,8 +121,7 @@
     }
 }
 
-
--(void)setDataWithModel:(GoodsModel *)model{
+-(void)setDataWithModel:(ShopCartGoodsModel *)model{
     self.goodsModel = model;
     _nameLabel.text = model.goodsName;
     _currentCountLabel.text = [NSString stringWithFormat:@"%d",model.orderCount];
@@ -130,12 +130,12 @@
 
 #pragma mark --- 加号按钮事件
 -(void)addButtonClick{
-
+    
 }
 
 #pragma mark --- 减号按钮事件
 -(void)subtractButtonClick{
-
+    
 }
 
 @end

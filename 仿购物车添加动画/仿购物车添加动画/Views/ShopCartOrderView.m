@@ -1,15 +1,14 @@
 //
-//  ShopCartView.m
+//  ShopCartOrderView.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "ShopCartView.h"
-#import "orderTableViewCell.h"
-
-@interface ShopCartView ()<UITableViewDelegate,UITableViewDataSource>
+#import "ShopCartOrderView.h"
+#import "ShopCartOrderCell.h"
+@interface ShopCartOrderView ()<UITableViewDelegate,UITableViewDataSource>
 /**表格*/
 @property (nonatomic, strong) UITableView * orderTableView;
 /***/
@@ -17,17 +16,18 @@
 /***/
 @property (nonatomic, strong) UIView * shopCartSuperView;
 /**订单数据源*/
-@property (nonatomic, strong) NSMutableArray<GoodsModel *> * goodsModelArray;
+@property (nonatomic, strong) NSMutableArray<ShopCartGoodsModel *> * goodsModelArray;
+
 @end
 
-@implementation ShopCartView
+@implementation ShopCartOrderView
 
-+(instancetype )ShowShopCartViewWithShopCartSuperView:(UIView *)shopCartSuperView  goodsModel:(NSMutableArray <GoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
-    ShopCartView * view = [[ShopCartView alloc]initWithShopCartSuperView:shopCartSuperView goodsModel:goodsModelArray ShopCartViewBlock:callBack];
++(instancetype )showShopCartOrderViewWithShopCartSuperView:(UIView *)shopCartSuperView  goodsModel:(NSMutableArray <ShopCartGoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
+    ShopCartOrderView * view = [[ShopCartOrderView alloc]initWithShopCartSuperView:shopCartSuperView goodsModel:goodsModelArray ShopCartViewBlock:callBack];
     return view;
 }
 
--(instancetype )initWithShopCartSuperView:(UIView *)shopCartSuperView goodsModel:(NSMutableArray <GoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
+-(instancetype )initWithShopCartSuperView:(UIView *)shopCartSuperView goodsModel:(NSMutableArray <ShopCartGoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
     self = [super init];
     if (self) {
         self.Block = callBack;
@@ -55,14 +55,14 @@
         make.height.mas_equalTo(orderViewMaxHeight >= self.goodsModelArray.count * 44 ? self.goodsModelArray.count * 44 : orderViewMaxHeight);
         make.bottom.equalTo(self.orderTableView.superview.mas_bottom).offset(-bottomToolBarH);
     }];
-
+    
     [UIView animateWithDuration:.6f animations:^{
         self.orderTableView.alpha = 1;
         self.alpha = .6f;
     }];
     
     [self addGestureRecognizer:[[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(hideShopCartView)]];
-
+    
 }
 
 -(UITableView *)orderTableView{
@@ -82,7 +82,7 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    orderTableViewCell * cell = [orderTableViewCell cellWithTableView:tableView];
+    ShopCartOrderCell * cell = [ShopCartOrderCell cellWithTableView:tableView];
     [cell setDataWithModel:self.goodsModelArray[indexPath.row]];
     return cell;
 }
@@ -108,5 +108,6 @@
         [self.orderTableView removeFromSuperview];
     }];
 }
+
 
 @end

@@ -1,14 +1,14 @@
 //
-//  GoodsModel.h
+//  ShopCartGoodsModel.h
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 //商品模型
-@interface GoodsModel : NSObject
+@interface ShopCartGoodsModel : NSObject
 /** 商品编号 */
 @property (nonatomic,copy) NSString * goodsID;
 /** 商品图标 */

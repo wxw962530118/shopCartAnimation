@@ -1,26 +1,27 @@
 //
-//  SCThrowLineTools.m
+//  ShopCartThrowLineTools.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/23.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "SCThrowLineTools.h"
+#import "ShopCartThrowLineTools.h"
 #import <QuartzCore/QuartzCore.h>
 
-@interface SCThrowLineTools ()<CAAnimationDelegate>
+@interface ShopCartThrowLineTools ()<CAAnimationDelegate>
 /**被抛出对象*/
 @property (nonatomic, strong) UIView * throwLineView;
+
 @end
 
-@implementation SCThrowLineTools
+@implementation ShopCartThrowLineTools
 
 +(instancetype)shareInstance{
-    static SCThrowLineTools * tools = nil;
+    static ShopCartThrowLineTools * tools = nil;
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        tools = [[SCThrowLineTools alloc]init];
+        tools = [[ShopCartThrowLineTools alloc]init];
     });
     return tools;
 }
@@ -31,12 +32,12 @@
 }
 
 
-+(instancetype)createSCThrowLineWithObject:(UIView *)obj from:(CGPoint)startPoint to:(CGPoint)endPoint animationFinishedBlock:(ThrowLineAnimationFinished)animationFinishedBlock{
-    SCThrowLineTools * tools = [[SCThrowLineTools alloc]initWithObject:obj from:startPoint to:endPoint animationFinishedBlock:animationFinishedBlock];
++(instancetype)createSCThrowLineWithObject:(UIView *)obj from:(CGPoint)startPoint to:(CGPoint)endPoint animationFinishedBlock:(ShopCartThrowLineAnimationFinished)animationFinishedBlock{
+    ShopCartThrowLineTools * tools = [[ShopCartThrowLineTools alloc]initWithObject:obj from:startPoint to:endPoint animationFinishedBlock:animationFinishedBlock];
     return tools;
 }
 
--(instancetype)initWithObject:(UIView *)obj from:(CGPoint)startPoint to:(CGPoint)endPoint animationFinishedBlock:(ThrowLineAnimationFinished)animationFinishedBlock{
+-(instancetype)initWithObject:(UIView *)obj from:(CGPoint)startPoint to:(CGPoint)endPoint animationFinishedBlock:(ShopCartThrowLineAnimationFinished)animationFinishedBlock{
     self = [super init];
     if (self) {
         self.throwLineView = obj;
@@ -83,4 +84,5 @@
     }
     self.throwLineView = nil;
 }
+
 @end

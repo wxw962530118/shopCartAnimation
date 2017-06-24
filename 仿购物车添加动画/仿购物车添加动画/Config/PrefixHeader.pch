@@ -11,9 +11,11 @@
 
 #import "UITableViewCell+Cell.h"
 #import "UIView+Category.h"
-#import "SCThrowLineTools.h"
+#import "ShopCartThrowLineTools.h"
 #import <Masonry.h>
-
+#import <MJExtension.h>
+#import "ShopCartGoodsModel.h"
+#import "ShopCartGoodsCategoryModel.h"
 
 #define ScreenWidth  [UIScreen mainScreen].bounds.size.width
 

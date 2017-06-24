@@ -7,8 +7,7 @@
 //
 
 #import "ShopCartBottomView.h"
-#import "orderTableViewCell.h"
-#import "ShopCartView.h"
+#import "ShopCartOrderView.h"
 @interface ShopCartBottomView ()
 /**购物车按钮*/
 @property (nonatomic, strong) UIButton * shopCartButton;
@@ -100,9 +99,9 @@
     }
 }
 
--(void)setOrderDataArray:(NSMutableArray<GoodsModel *> *)orderDataArray{
+-(void)setOrderDataArray:(NSMutableArray<ShopCartGoodsModel *> *)orderDataArray{
     _orderDataArray = orderDataArray;
-    for (GoodsModel * model in orderDataArray) {
+    for (ShopCartGoodsModel * model in orderDataArray) {
         self.orderSum += model.goodsSalePrice;
     }
     self.orderCount = orderDataArray.count;
@@ -140,7 +139,7 @@
     }];
     
     __weak typeof(self) weakSelf = self;
-    [ShopCartView ShowShopCartViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount) {
+    [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount) {
         if (![selectedCount integerValue]) {
             [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{

@@ -25,7 +25,7 @@
             </objects>
             <point key="canvasLocation" x="-625" y="-170"/>
         </scene>
-        <!--购物车-->
+        <!--首页-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" sceneMemberID="viewController">
@@ -59,7 +59,7 @@
                             <constraint firstItem="RGc-LD-5W9" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="zU4-Mc-0Mn"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="购物车" id="TGU-yZ-cRl"/>
+                    <navigationItem key="navigationItem" title="首页" id="TGU-yZ-cRl"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

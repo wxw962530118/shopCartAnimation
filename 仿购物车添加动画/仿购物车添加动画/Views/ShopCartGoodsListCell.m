@@ -1,15 +1,14 @@
 //
-//  rightTableViewCell.m
+//  ShopCartGoodsListCell.m
 //  仿购物车添加动画
 //
-//  Created by 王新伟 on 2017/6/21.
+//  Created by 王新伟 on 2017/6/24.
 //  Copyright © 2017年 王新伟. All rights reserved.
 //
 
-#import "rightTableViewCell.h"
-#import "GoodsModel.h"
+#import "ShopCartGoodsListCell.h"
 
-@interface rightTableViewCell ()
+@interface ShopCartGoodsListCell ()
 /***/
 @property (nonatomic, copy) AddSubtractnClickCallBack Block;
 /**商品图标*/
@@ -31,10 +30,11 @@
 /**减号*/
 @property (nonatomic, strong) UIButton * subtractButton;
 /***/
-@property (nonatomic, strong) GoodsModel * goodModel;
+@property (nonatomic, strong) ShopCartGoodsModel * goodModel;
+
 @end
 
-@implementation rightTableViewCell
+@implementation ShopCartGoodsListCell
 
 -(void)loadWithComponents{
     [self addLeftImageView];
@@ -171,7 +171,7 @@
     }
 }
 
--(void)setDataWithModel:(GoodsModel *)model{
+-(void)setDataWithModel:(ShopCartGoodsModel *)model{
     self.goodModel = model;
     if (model.goodsStock == 0){
         _addButton.enabled = NO;

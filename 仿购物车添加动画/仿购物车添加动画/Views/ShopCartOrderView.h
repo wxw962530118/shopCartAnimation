@@ -8,7 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-typedef void(^ShopCartViewBlock)(NSNumber * selectedCount , BOOL isHideView, BOOL isClickAddBtn , NSMutableArray * array);
+/**
+ 订单列表的事件回调
+
+ @param isHideView 是否隐藏当前列表
+ @param isClickAddBtn 是否点击了添加按钮
+ @param array 当前修改的订单模型数组
+ */
+typedef void(^ShopCartViewBlock)(BOOL isHideView, BOOL isClickAddBtn , NSMutableArray * array);
 
 @interface ShopCartOrderView : UIView
 /**

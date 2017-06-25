@@ -19,7 +19,7 @@ typedef NS_ENUM(NSInteger , AddSubtractnType){
  @param type 点击按钮的类型
  @param sender 被点击对象
  */
-typedef void(^AddSubtractnClickCallBack)(AddSubtractnType type,UIButton * sender);//void(^resultBlock)(BOOL isResult)
+typedef void(^AddSubtractnClickCallBack)(AddSubtractnType type,UIButton * sender);
 
 
 @interface ShopCartAddSubtractView : UIView

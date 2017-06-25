@@ -72,7 +72,7 @@
                 case AddSubtractnType_Add:
                     weakSelf.goodsModel.goodsStock--;
                     weakSelf.goodsModel.orderCount++;
-                    NotificationPost(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION, nil, @{@"ShopCartOrderCell":weakSelf});
+                    NotificationPost(ORDERLIST_CLICK_ADD_BUTTON_NOTIFICATION, nil, @{@"ShopCartOrderCell":weakSelf});
                     break;
                     
                 case AddSubtractnType_Subtractn:

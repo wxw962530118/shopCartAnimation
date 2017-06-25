@@ -117,7 +117,7 @@
                     if (weakSelf.goodModel.goodsStock == 0) {
                         _soldoutImageView.hidden = NO;
                     }
-                    NotificationPost(SHOPCARTLIST_CLICK_ADDBUTTON_NOTIFICATION, nil, @{@"ShopCartGoodsListCell":weakSelf,@"sender":sender});
+                    NotificationPost(SHOPCARTLIST_CLICK_ADD_BUTTON_NOTIFICATION, nil, @{@"ShopCartGoodsListCell":weakSelf,@"sender":sender});
                     break;
                     
                 case AddSubtractnType_Subtractn:

@@ -40,13 +40,13 @@
 }
 
 -(void)addObservers{
-    NotificationRegister(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION,self,@selector(addBtnClick:),nil);
+    NotificationRegister(ORDERLIST_CLICK_ADD_BUTTON_NOTIFICATION,self,@selector(addBtnClick:),nil);
     NotificationRegister(ORDERLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION,self,@selector(subtractBtnClick:),nil);
 }
 
 -(void)addBtnClick:(NSNotification *)noti{
     if (self.Block) {
-        self.Block(0,NO,YES,self.goodsModelArray);
+        self.Block(NO,YES,self.goodsModelArray);
     }
     [self.orderTableView reloadData];
 }
@@ -62,7 +62,7 @@
             }];
         }
         if (self.Block) {
-            self.Block(0,NO,NO,self.goodsModelArray);
+            self.Block(NO,NO,self.goodsModelArray);
         }
     }
 
@@ -132,7 +132,7 @@
 #pragma mark --- 黑色遮罩事件
 -(void)hideShopCartView{
     if (self.Block) {
-        self.Block(0,YES,NO,self.goodsModelArray);
+        self.Block(YES,NO,self.goodsModelArray);
     }
     [UIView animateWithDuration:.6f animations:^{
         self.orderTableView.alpha = 0;

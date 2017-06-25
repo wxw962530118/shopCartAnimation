@@ -42,9 +42,9 @@
 
 #pragma mark --- 添加订单列表的增删按钮事件监听
 -(void)addObservers{
-    NotificationRegister(SHOPCARTLIST_CLICK_ADDBUTTON_NOTIFICATION, self, @selector(clickAddBtn:), nil);
+    NotificationRegister(SHOPCARTLIST_CLICK_ADD_BUTTON_NOTIFICATION, self, @selector(clickAddBtn:), nil);
     NotificationRegister(SHOPCARTLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION, self, @selector(clickSubtractBtn:), nil);
-    NotificationRegister(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION, self,@selector(orderClickAddBtn:), nil);
+    NotificationRegister(ORDERLIST_CLICK_ADD_BUTTON_NOTIFICATION, self,@selector(orderClickAddBtn:), nil);
     NotificationRegister(ORDERLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION, self,@selector(orderClickSubtractBtn:), nil);
 }
 

@@ -165,7 +165,7 @@
     }];
     
     __weak typeof(self) weakSelf = self;
-    [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount, BOOL ishideView , BOOL isClickAddBtn , NSMutableArray * array) {
+    [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(BOOL ishideView , BOOL isClickAddBtn , NSMutableArray * array) {
         if (ishideView) {
             [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{

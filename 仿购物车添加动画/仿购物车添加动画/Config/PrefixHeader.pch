@@ -9,28 +9,14 @@
 #ifndef PrefixHeader_pch
 #define PrefixHeader_pch
 
-#import "UITableViewCell+Cell.h"
-#import "UIView+Category.h"
-#import "ShopCartThrowLineTools.h"
 #import <Masonry.h>
 #import <MJExtension.h>
+#import "UIView+Category.h"
 #import "ShopCartGoodsModel.h"
+#import "UITableViewCell+Cell.h"
+#import "ShopCartMacroColorFont.h"
+#import "ShopCartThrowLineTools.h"
 #import "ShopCartGoodsCategoryModel.h"
-
-#define ScreenWidth  [UIScreen mainScreen].bounds.size.width
-
-#define ScreenHeight [UIScreen mainScreen].bounds.size.height
-
-#define  kTCCellIdentifier NSStringFromClass(self)
-
-#define  bottomToolBarH  50
-
-#define  orderViewMaxHeight 350
-
-#define getRootView [UIApplication sharedApplication].delegate.window
-
-#define  RColor(r, g, b) [UIColor colorWithRed:(r)/255.0 green:(g)/255.0 blue:(b)/255.0 alpha:1.0]
-
-#define  UIFont(s)  [UIFont systemFontOfSize:s]
+#import "ShopCartMacroNotifications.h"
 
 #endif /* PrefixHeader_pch */

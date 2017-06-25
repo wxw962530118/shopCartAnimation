@@ -25,6 +25,5 @@
 @property (nonatomic,assign) int orderCount;
 /** 商品简介 */
 @property (nonatomic,copy) NSString * goodsDesc;
-/**前端添加的订单数量*/
-@property (nonatomic, strong) NSMutableArray * orderArray;
+
 @end

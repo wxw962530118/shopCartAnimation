@@ -7,7 +7,7 @@
 //
 
 #import "ShopCartOrderCell.h"
-
+#import "ShopCartAddSubtractView.h"
 @interface ShopCartOrderCell ()
 /**左边示意条*/
 @property (nonatomic, strong) UIView * leftLineView;
@@ -23,6 +23,8 @@
 @property (nonatomic, strong) UILabel * currentCountLabel;
 /***/
 @property (nonatomic, strong) ShopCartGoodsModel * goodsModel;
+/***/
+@property (nonatomic, strong) ShopCartAddSubtractView * addSubtractView;
 
 @end
 
@@ -30,11 +32,9 @@
 
 -(void)loadWithComponents{
     [self addLeftLineView];
-    [self addNameLabel];
-    [self addAddButton];
-    [self addCurrentCountLabel];
-    [self addSubtractButton];
+    [self addShopCartAddSubtractView];
     [self addCurrentPriceLabel];
+    [self addNameLabel];
 }
 
 -(void)addLeftLineView{
@@ -54,68 +54,58 @@
     if (!_nameLabel) {
         _nameLabel = [[UILabel alloc]init];
         _nameLabel.textColor = RColor(33,33,33);
-        _nameLabel.text = @"生产菜市场";
         _nameLabel.numberOfLines = 2;
-        _nameLabel.font = UIFont(16);
+        _nameLabel.font = SCFont(16);
         [self.contentView addSubview:_nameLabel];
         [_nameLabel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.equalTo(_leftLineView.mas_right).offset(5);
-            make.width.mas_equalTo(150);
+            make.right.equalTo(_currentPriceLabel.mas_left).offset(-10);
             make.centerY.equalTo(self.contentView);
         }];
     }
 }
-
--(void)addAddButton{
-    if (!_addButton) {
-        _addButton = [[UIButton alloc]init];
-        [_addButton setBackgroundImage:[UIImage imageNamed:@"add"] forState:UIControlStateNormal];
-        [_addButton addTarget:self action:@selector(addButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_addButton];
-        [_addButton mas_makeConstraints:^(MASConstraintMaker *make) {
+-(void)addShopCartAddSubtractView{
+    if (!_addSubtractView) {
+        __weak typeof(self) weakSelf = self;
+        _addSubtractView = [ShopCartAddSubtractView createAddSubtractViewWithAddSubtractnClickCallBack:^(AddSubtractnType type, UIButton *sender) {
+            switch (type) {
+                case AddSubtractnType_Add:
+                    weakSelf.goodsModel.goodsStock--;
+                    weakSelf.goodsModel.orderCount++;
+                    NotificationPost(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION, nil, @{@"ShopCartOrderCell":weakSelf});
+                    break;
+                    
+                case AddSubtractnType_Subtractn:
+                    weakSelf.goodsModel.goodsStock++;
+                    weakSelf.goodsModel.orderCount--;
+                    if (weakSelf.goodsModel.goodsStock > 0) {
+                    }
+                    NotificationPost(ORDERLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION, nil,@{@"ShopCartOrderCell":weakSelf});
+                    break;
+                    
+                default:
+                    break;
+            }
+        }];
+        [self.contentView addSubview:_addSubtractView];
+        [_addSubtractView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerY.equalTo(self.contentView);
             make.right.equalTo(self.contentView.mas_right).offset(-10);
-            make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(20, 20));
+            make.size.mas_equalTo(CGSizeMake(64,15));
         }];
     }
 }
 
--(void)addCurrentCountLabel{
-    if (!_currentCountLabel) {
-        _currentCountLabel = [[UILabel alloc]init];
-        _currentCountLabel.text = @"33321";
-        _currentCountLabel.textColor = RColor(33,33,33);
-        [self.contentView addSubview:_currentCountLabel];
-        [_currentCountLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_addButton.mas_left).offset(-10);
-            make.centerY.equalTo(self.contentView);
-        }];
-    }
-}
-
--(void)addSubtractButton{
-    if (!_subtractButton) {
-        _subtractButton = [[UIButton alloc]init];
-        [_subtractButton setBackgroundImage:[UIImage imageNamed:@"sub"] forState:UIControlStateNormal];
-        [_subtractButton addTarget:self action:@selector(subtractButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [self.contentView addSubview:_subtractButton];
-        [_subtractButton mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_currentCountLabel.mas_left).offset(-10);
-            make.centerY.equalTo(self.contentView);
-            make.size.mas_equalTo(CGSizeMake(20, 20));
-        }];
-    }
-}
 
 -(void)addCurrentPriceLabel{
     if (!_currentPriceLabel) {
         _currentPriceLabel = [[UILabel alloc]init];
-        _currentPriceLabel.text = @"￥333";
         _currentPriceLabel.textAlignment = NSTextAlignmentLeft;
         _currentPriceLabel.textColor = RColor(252,42, 28);
         [self.contentView addSubview:_currentPriceLabel];
         [_currentPriceLabel mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.right.equalTo(_subtractButton.mas_left).offset(-30);
+            make.right.equalTo(_addSubtractView.mas_left).offset(-15);
+            make.width.mas_equalTo(70);
             make.centerY.equalTo(self.contentView);
         }];
     }
@@ -123,19 +113,10 @@
 
 -(void)setDataWithModel:(ShopCartGoodsModel *)model{
     self.goodsModel = model;
+    _addSubtractView.goodModel = self.goodsModel;
     _nameLabel.text = model.goodsName;
     _currentCountLabel.text = [NSString stringWithFormat:@"%d",model.orderCount];
     _currentPriceLabel.text = [NSString stringWithFormat:@"￥%.2f",model.goodsSalePrice];
-}
-
-#pragma mark --- 加号按钮事件
--(void)addButtonClick{
-    
-}
-
-#pragma mark --- 减号按钮事件
--(void)subtractButtonClick{
-    
 }
 
 @end

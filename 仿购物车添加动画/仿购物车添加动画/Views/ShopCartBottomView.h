@@ -20,4 +20,7 @@
 /**从外部传入的订单模型数组*/
 @property (nonatomic, strong) NSMutableArray <ShopCartGoodsModel *> * orderDataArray;
 
+/** 购物车标记值 */
+@property (assign, nonatomic) NSInteger badgeValue;
+
 @end

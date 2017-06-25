@@ -23,6 +23,8 @@
 @property (nonatomic, assign) double orderSum;
 /**订单列表数量*/
 @property (nonatomic, assign) NSInteger orderCount;
+/**角标展示*/
+@property (nonatomic, strong) UILabel * badgeLabel;
 
 @end
 
@@ -42,6 +44,7 @@
     [self addShopCartButton];
     [self addTotalPriceLabel];
     [self addCommitButton];
+    [self addBadgeLabel];
 }
 
 -(void)addTopLineView{
@@ -89,7 +92,7 @@
         _commitButton = [[UIButton alloc]init];
         _commitButton.layer.cornerRadius = 5;
         _commitButton.layer.masksToBounds = YES;
-        _commitButton.titleLabel.font = UIFont(15);
+        _commitButton.titleLabel.font = SCFont(15);
         [self addSubview:_commitButton];
         [_commitButton mas_makeConstraints:^(MASConstraintMaker *make) {
             make.right.equalTo(self.mas_right).offset(-10);
@@ -99,17 +102,40 @@
     }
 }
 
+-(void)addBadgeLabel{
+    if (!_badgeLabel) {
+        _badgeLabel = [[UILabel alloc]init];
+        _badgeLabel.backgroundColor = [UIColor redColor];
+        _badgeLabel.font = SCFont(10);
+        _badgeLabel.layer.cornerRadius = 9;
+        _badgeLabel.clipsToBounds = YES;
+        _badgeLabel.textColor = [UIColor whiteColor];
+        _badgeLabel.textAlignment = NSTextAlignmentCenter;
+        [_shopCartButton addSubview:_badgeLabel];
+        _badgeLabel.hidden = YES;
+        CGFloat angle = M_PI_4;
+        CGFloat radius = 52 * .5f;
+        CGFloat x =  sinf(angle)*radius;
+        CGFloat y = -cosf(angle)*radius;
+        [_badgeLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.center.mas_equalTo(CGPointMake(x, y));
+            make.size.mas_equalTo(CGSizeMake(18, 18));
+        }];
+    }
+}
+
 -(void)setOrderDataArray:(NSMutableArray<ShopCartGoodsModel *> *)orderDataArray{
     _orderDataArray = orderDataArray;
+    self.orderSum = 0;
     for (ShopCartGoodsModel * model in orderDataArray) {
-        self.orderSum += model.goodsSalePrice;
+        self.orderSum += model.goodsSalePrice * model.orderCount;
     }
     self.orderCount = orderDataArray.count;
     if (!orderDataArray.count) {
         _commitButton.userInteractionEnabled = _shopCartButton.userInteractionEnabled = NO;
         _totalPriceLabel.text = @"购物车空空如也~";
         _totalPriceLabel.textColor = RColor(114, 114, 114);
-        _totalPriceLabel.font = UIFont(14);
+        _totalPriceLabel.font = SCFont(14);
         _commitButton.backgroundColor = RColor(114, 114, 114);
         [_commitButton setTitle:@"请选择商品" forState:UIControlStateNormal];
         [_commitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -119,7 +145,7 @@
         [_commitButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _totalPriceLabel.text = [NSString stringWithFormat:@"共:￥%.2f",self.orderSum];
         _totalPriceLabel.textColor = RColor(252,42, 28);
-        _totalPriceLabel.font = UIFont(17);
+        _totalPriceLabel.font = SCFont(17);
         _commitButton.userInteractionEnabled = _shopCartButton.userInteractionEnabled = YES;
     }
 }
@@ -139,8 +165,8 @@
     }];
     
     __weak typeof(self) weakSelf = self;
-    [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount) {
-        if (![selectedCount integerValue]) {
+    [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(NSNumber *selectedCount, BOOL ishideView , BOOL isClickAddBtn , NSMutableArray * array) {
+        if (ishideView) {
             [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{
                 [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -152,9 +178,33 @@
                 }];
                 [weakSelf.shopCartSuperView layoutIfNeeded];
             }];
+        }else{
+            if (isClickAddBtn) {
+                weakSelf.badgeValue++;
+            }else{
+                weakSelf.badgeValue--;
+            }
+            weakSelf.orderDataArray = array;
+            [weakSelf.shopCartSuperView layoutIfNeeded];
+            [UIView animateWithDuration:.6f animations:^{
+                [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
+                    make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10 - self.orderCount * 44 - bottomToolBarH);
+                }];
+                [weakSelf.shopCartSuperView layoutIfNeeded];
+            }];
         }
     }];
     [_shopCartButton.superview bringSubviewToFront:_shopCartButton];
+}
+
+-(void)setBadgeValue:(NSInteger)badgeValue{
+    _badgeValue = badgeValue;
+    if (badgeValue <= 0) {
+        _badgeLabel.hidden = YES;
+    }else{
+        _badgeLabel.text = [NSString stringWithFormat:@"%ld",badgeValue];
+        _badgeLabel.hidden = NO;
+    }
 }
 
 -(void)dealloc{

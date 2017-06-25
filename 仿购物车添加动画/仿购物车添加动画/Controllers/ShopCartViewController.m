@@ -20,7 +20,7 @@
 /**本地解析的数据源*/
 @property (nonatomic, strong) NSArray <ShopCartGoodsCategoryModel *> * dataArray;
 /**是否关联*/
-@property (nonatomic, assign) BOOL          isRelate;
+@property (nonatomic, assign) BOOL isRelate;
 /**底部的购物车*/
 @property (nonatomic, strong) ShopCartBottomView * bottomView;
 /**订单所选总数量*/
@@ -35,8 +35,37 @@
 @implementation ShopCartViewController
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self addObservers];
     [self loadData];
     [self createUI];
+}
+
+#pragma mark --- 添加订单列表的增删按钮事件监听
+-(void)addObservers{
+    NotificationRegister(SHOPCARTLIST_CLICK_ADDBUTTON_NOTIFICATION, self, @selector(clickAddBtn:), nil);
+    NotificationRegister(SHOPCARTLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION, self, @selector(clickSubtractBtn:), nil);
+    NotificationRegister(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION, self,@selector(orderClickAddBtn:), nil);
+    NotificationRegister(ORDERLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION, self,@selector(orderClickSubtractBtn:), nil);
+}
+
+-(void)orderClickAddBtn:(NSNotification *)noti{
+    [self.rightTableView reloadData];
+}
+
+-(void)orderClickSubtractBtn:(NSNotification *)noti{
+     [self.rightTableView reloadData];
+}
+
+-(void)clickAddBtn:(NSNotification *)noti{
+    [self addBtnClickd:(NSIndexPath *)[self.rightTableView indexPathForCell:(ShopCartGoodsListCell *)[noti.userInfo objectForKey:@"ShopCartGoodsListCell"]] clickBtn:(UIButton *)[noti.userInfo objectForKey:@"sender"]];
+}
+
+-(void)clickSubtractBtn:(NSNotification *)noti{
+    [self subtractnBtnClickd:(NSIndexPath *)[self.rightTableView indexPathForCell:(ShopCartGoodsListCell *)[noti.userInfo objectForKey:@"ShopCartGoodsListCell"]] clickBtn:(UIButton *)[noti.userInfo objectForKey:@"sender"]];
+}
+
+-(void)reloadData{
+    [self.rightTableView reloadData];
 }
 
 -(void)createUI{
@@ -65,7 +94,7 @@
     }
 }
 
-#pragma mark  --- 表格代理及数据源
+#pragma mark --- 表格代理及数据源
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     if (tableView == self.leftTableView) {
         return 1;
@@ -83,29 +112,13 @@
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    __weak typeof(self) weakSelf = self;
     if (tableView == self.leftTableView) {
         ShopCartGoodsCategoryCell * cell = [ShopCartGoodsCategoryCell cellWithTableView:tableView];
         [cell setDataWithModel:self.dataArray[indexPath.row]];
         return cell;
     }else{
         ShopCartGoodsListCell * cell = [ShopCartGoodsListCell cellWithTableView:tableView];
-        self.dataArray[indexPath.section].goodsArray[indexPath.row].orderArray = self.orderArray;
         [cell setDataWithModel:self.dataArray[indexPath.section].goodsArray[indexPath.row]];
-        cell.callBack = ^(AddSubtractnType type , UIButton * sender) {
-            switch (type) {
-                case AddSubtractnType_Add:
-                    //处理点击添加按钮事件
-                    [weakSelf addBtnClickd:indexPath clickBtn:sender];
-                    break;
-                case AddSubtractnType_Subtractn:
-                    //处理点击减按钮事件
-                    [weakSelf subtractnBtnClickd:indexPath clickBtn:sender];
-                    break;
-                default:
-                    break;
-            }
-        };
         return cell;
     }
 }
@@ -154,7 +167,6 @@
         [self.rightTableView scrollToRowAtIndexPath:[NSIndexPath indexPathForItem:0 inSection:indexPath.row] atScrollPosition:UITableViewScrollPositionTop animated:YES];
     }else{
         [self.rightTableView deselectRowAtIndexPath:indexPath animated:YES];
-        NSLog(@"点击这里可以跳到详情页面");
     }
 }
 
@@ -226,7 +238,6 @@
             make.left.equalTo(_leftTableView.mas_right);
             make.width.mas_offset(ScreenWidth * .75f);
         }];
-        
     }
     return _rightTableView;
 }
@@ -239,7 +250,6 @@
     return _bottomView;
 }
 
-#pragma mark --- 懒加载控件
 -(UIImageView *)throwImageView{
     if (!_throwImageView) {
         _throwImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
@@ -252,44 +262,51 @@
 #pragma mark --- 购物车右侧列表的增加删减按钮事件
 -(void)addBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
     UIButton * shopCartBtn = (UIButton *)[self.view viewWithTag:1000];
-    ShopCartGoodsListCell * cell = [self.rightTableView cellForRowAtIndexPath:indexPath];
-    CGRect startRect = [cell convertRect:sender.frame toView:self.view];
+    CGRect startRect = [sender.superview convertRect:sender.frame toView:self.view];
     CGRect endRect = [self.view convertRect:shopCartBtn.frame toView:self.view];
     [self.view addSubview:self.throwImageView];
     __weak typeof(self) weakSelf = self;
     [ShopCartThrowLineTools createSCThrowLineWithObject:self.throwImageView from:startRect.origin to:endRect.origin animationFinishedBlock:^{
         [weakSelf.throwImageView removeFromSuperview];
-        [UIView animateWithDuration:0.1 animations:^{
-            shopCartBtn.transform = CGAffineTransformMakeScale(0.8, 0.8);
+        [UIView animateWithDuration:.1f animations:^{
+            shopCartBtn.transform = CGAffineTransformMakeScale(.8f, .8f);
         } completion:^(BOOL finished) {
-            [UIView animateWithDuration:0.1 animations:^{
+            [UIView animateWithDuration:.1f animations:^{
                 shopCartBtn.transform = CGAffineTransformMakeScale(1, 1);
             } completion:^(BOOL finished) {
-
+                
             }];
         }];
     }];
     
     ShopCartGoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
-    if ([self.orderArray containsObject:model]) {
-        //如果当前存在某个商品 就不用再添加
-        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
-    }else{
-        [self.orderArray addObject:model];
-        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    if (![self.orderArray containsObject:model]) {
+         [self.orderArray addObject:model]; //如果当前不存在某个商品 就添加
+        for (ShopCartGoodsModel * model in self.orderArray) {
+            NSLog(@"name--%@",model.goodsName);
+        }
     }
+    [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    self.bottomView.badgeValue++;
     self.bottomView.orderDataArray = self.orderArray;
-    NSLog(@"增加--%@",self.orderArray);
 }
 
 -(void)subtractnBtnClickd:(NSIndexPath *)indexPath clickBtn:(UIButton *)sender{
     //将商品从购物车中移除
     ShopCartGoodsModel * model = self.dataArray[indexPath.section].goodsArray[indexPath.row];
     if (model.orderCount == 0) {
+        //处理当前订单数组里面都是一种模型的情况 只有当订单数量为0 再移除数组
         [self.orderArray removeObject:model];
-        [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
     }
+    [self.rightTableView reloadRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationNone];
+    self.bottomView.badgeValue--;
     self.bottomView.orderDataArray = self.orderArray;
-    NSLog(@"删除--%@",self.orderArray);
 }
+
+#pragma mark --- 移除所有监听
+-(void)viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    NotificationRemoveAll(self);
+}
+
 @end

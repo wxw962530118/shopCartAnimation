@@ -19,6 +19,9 @@
 		ACE722951EFDF94000E6B86D /* ShopCartThrowLineTools.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE722941EFDF94000E6B86D /* ShopCartThrowLineTools.m */; };
 		ACE7229B1EFDFD7D00E6B86D /* ShopCartGoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE7229A1EFDFD7D00E6B86D /* ShopCartGoodsModel.m */; };
 		ACE7229E1EFDFD8600E6B86D /* ShopCartGoodsCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE7229D1EFDFD8600E6B86D /* ShopCartGoodsCategoryModel.m */; };
+		ACE722A21EFE08D600E6B86D /* ShopCartMacroNotifications.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE722A11EFE08D600E6B86D /* ShopCartMacroNotifications.m */; };
+		ACE722A61EFE0C2900E6B86D /* ShopCartAddSubtractView.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE722A51EFE0C2900E6B86D /* ShopCartAddSubtractView.m */; };
+		ACE722AE1EFFD91300E6B86D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ACE722AD1EFFD91300E6B86D /* Images.xcassets */; };
 		ACE88E631EFA465F0082EAA6 /* UITableViewCell+Cell.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE88E621EFA465F0082EAA6 /* UITableViewCell+Cell.m */; };
 		ACE88E691EFA499A0082EAA6 /* goods.json in Resources */ = {isa = PBXBuildFile; fileRef = ACE88E651EFA499A0082EAA6 /* goods.json */; };
 		ACE88E6B1EFA499A0082EAA6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ACE88E671EFA499A0082EAA6 /* main.m */; };
@@ -55,6 +58,12 @@
 		ACE7229A1EFDFD7D00E6B86D /* ShopCartGoodsModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCartGoodsModel.m; sourceTree = "<group>"; };
 		ACE7229C1EFDFD8600E6B86D /* ShopCartGoodsCategoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCartGoodsCategoryModel.h; sourceTree = "<group>"; };
 		ACE7229D1EFDFD8600E6B86D /* ShopCartGoodsCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCartGoodsCategoryModel.m; sourceTree = "<group>"; };
+		ACE722A01EFE08D600E6B86D /* ShopCartMacroNotifications.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCartMacroNotifications.h; sourceTree = "<group>"; };
+		ACE722A11EFE08D600E6B86D /* ShopCartMacroNotifications.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCartMacroNotifications.m; sourceTree = "<group>"; };
+		ACE722A31EFE094D00E6B86D /* ShopCartMacroColorFont.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ShopCartMacroColorFont.h; sourceTree = "<group>"; };
+		ACE722A41EFE0C2900E6B86D /* ShopCartAddSubtractView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShopCartAddSubtractView.h; sourceTree = "<group>"; };
+		ACE722A51EFE0C2900E6B86D /* ShopCartAddSubtractView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShopCartAddSubtractView.m; sourceTree = "<group>"; };
+		ACE722AD1EFFD91300E6B86D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		ACE88E611EFA465F0082EAA6 /* UITableViewCell+Cell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITableViewCell+Cell.h"; sourceTree = "<group>"; };
 		ACE88E621EFA465F0082EAA6 /* UITableViewCell+Cell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITableViewCell+Cell.m"; sourceTree = "<group>"; };
 		ACE88E651EFA499A0082EAA6 /* goods.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = goods.json; sourceTree = "<group>"; };
@@ -121,6 +130,7 @@
 				ACD3FDED1EFA40430046EB19 /* Assets.xcassets */,
 				ACD3FDEF1EFA40430046EB19 /* LaunchScreen.storyboard */,
 				ACD3FDF21EFA40430046EB19 /* Info.plist */,
+				ACE722AD1EFFD91300E6B86D /* Images.xcassets */,
 				ACD3FDE11EFA40430046EB19 /* Supporting Files */,
 			);
 			path = "仿购物车添加动画";
@@ -166,6 +176,8 @@
 				ACE722881EFDF8A200E6B86D /* ShopCartOrderView.m */,
 				ACE88E801EFA65CF0082EAA6 /* ShopCartBottomView.h */,
 				ACE88E811EFA65CF0082EAA6 /* ShopCartBottomView.m */,
+				ACE722A41EFE0C2900E6B86D /* ShopCartAddSubtractView.h */,
+				ACE722A51EFE0C2900E6B86D /* ShopCartAddSubtractView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -183,6 +195,9 @@
 			isa = PBXGroup;
 			children = (
 				ACE88E731EFA49FB0082EAA6 /* PrefixHeader.pch */,
+				ACE722A01EFE08D600E6B86D /* ShopCartMacroNotifications.h */,
+				ACE722A11EFE08D600E6B86D /* ShopCartMacroNotifications.m */,
+				ACE722A31EFE094D00E6B86D /* ShopCartMacroColorFont.h */,
 			);
 			path = Config;
 			sourceTree = "<group>";
@@ -289,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ACD3FDF11EFA40430046EB19 /* LaunchScreen.storyboard in Resources */,
+				ACE722AE1EFFD91300E6B86D /* Images.xcassets in Resources */,
 				ACD3FDEE1EFA40430046EB19 /* Assets.xcassets in Resources */,
 				ACE88E691EFA499A0082EAA6 /* goods.json in Resources */,
 				ACD3FDEC1EFA40430046EB19 /* Main.storyboard in Resources */,
@@ -354,6 +370,7 @@
 				ACE722951EFDF94000E6B86D /* ShopCartThrowLineTools.m in Sources */,
 				ACE88E721EFA49EF0082EAA6 /* ViewController.m in Sources */,
 				ACE722861EFDF88E00E6B86D /* ShopCartViewController.m in Sources */,
+				ACE722A61EFE0C2900E6B86D /* ShopCartAddSubtractView.m in Sources */,
 				ACE88E631EFA465F0082EAA6 /* UITableViewCell+Cell.m in Sources */,
 				ACE88E711EFA49EF0082EAA6 /* AppDelegate.m in Sources */,
 				ACE7228C1EFDF8C600E6B86D /* ShopCartOrderCell.m in Sources */,
@@ -362,6 +379,7 @@
 				ACE7229E1EFDFD8600E6B86D /* ShopCartGoodsCategoryModel.m in Sources */,
 				ACE722801EFCDED800E6B86D /* UIView+Category.m in Sources */,
 				ACE88E821EFA65CF0082EAA6 /* ShopCartBottomView.m in Sources */,
+				ACE722A21EFE08D600E6B86D /* ShopCartMacroNotifications.m in Sources */,
 				ACE88E6B1EFA499A0082EAA6 /* main.m in Sources */,
 				ACE7228F1EFDF8FC00E6B86D /* ShopCartGoodsCategoryCell.m in Sources */,
 			);
@@ -484,6 +502,7 @@
 			baseConfigurationReference = 91AED4672DD93E323037D430 /* Pods-仿购物车添加动画.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/仿购物车添加动画/Config/PrefixHeader.pch";
@@ -499,6 +518,7 @@
 			baseConfigurationReference = 546D418DF559E9FF36B11929 /* Pods-仿购物车添加动画.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_INCREASE_PRECOMPILED_HEADER_SHARING = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/仿购物车添加动画/Config/PrefixHeader.pch";

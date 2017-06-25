@@ -30,12 +30,46 @@
 -(instancetype )initWithShopCartSuperView:(UIView *)shopCartSuperView goodsModel:(NSMutableArray <ShopCartGoodsModel *>*)goodsModelArray ShopCartViewBlock:(ShopCartViewBlock)callBack{
     self = [super init];
     if (self) {
+        [self addObservers];
         self.Block = callBack;
         self.shopCartSuperView = shopCartSuperView;
         self.goodsModelArray = goodsModelArray;
         [self loadWithComponents];
     }
     return self;
+}
+
+-(void)addObservers{
+    NotificationRegister(ORDERLIST_CLICK_ADDBUTTON_NOTIFICATION,self,@selector(addBtnClick:),nil);
+    NotificationRegister(ORDERLIST_CLICK_SUBTRACT_BUTTON_NOTIFICATION,self,@selector(subtractBtnClick:),nil);
+}
+
+-(void)addBtnClick:(NSNotification *)noti{
+    if (self.Block) {
+        self.Block(0,NO,YES,self.goodsModelArray);
+    }
+    [self.orderTableView reloadData];
+}
+
+-(void)subtractBtnClick:(NSNotification *)noti{
+    NSIndexPath * indexPath = [self.orderTableView indexPathForCell:(ShopCartOrderCell *)[noti.userInfo objectForKey:@"ShopCartOrderCell"]];
+    if (self.goodsModelArray.count) {
+        if (!self.goodsModelArray[indexPath.row].orderCount) {
+            [self.goodsModelArray removeObject:self.goodsModelArray[indexPath.row]];
+            NSInteger  orderCount = self.goodsModelArray.count;
+            [self.orderTableView mas_updateConstraints:^(MASConstraintMaker *make) {
+                make.height.mas_equalTo(orderCount * 44);
+            }];
+        }
+        if (self.Block) {
+            self.Block(0,NO,NO,self.goodsModelArray);
+        }
+    }
+
+    if (!self.goodsModelArray.count) {
+        [self hideShopCartView];
+    }
+    [self.orderTableView reloadData];
 }
 
 -(void)loadWithComponents{
@@ -93,21 +127,24 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
-    [self hideShopCartView];
 }
 
 #pragma mark --- 黑色遮罩事件
 -(void)hideShopCartView{
     if (self.Block) {
-        self.Block(0);
+        self.Block(0,YES,NO,self.goodsModelArray);
     }
     [UIView animateWithDuration:.6f animations:^{
         self.orderTableView.alpha = 0;
         self.alpha = 0;
     } completion:^(BOOL finished) {
         [self.orderTableView removeFromSuperview];
+        [self removeFromSuperview];
     }];
 }
 
+-(void)dealloc{
+    NotificationRemoveAll(self);
+}
 
 @end

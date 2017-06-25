@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-typedef void(^ShopCartViewBlock)(NSNumber * selectedCount);
+
+typedef void(^ShopCartViewBlock)(NSNumber * selectedCount , BOOL isHideView, BOOL isClickAddBtn , NSMutableArray * array);
 
 @interface ShopCartOrderView : UIView
 /**

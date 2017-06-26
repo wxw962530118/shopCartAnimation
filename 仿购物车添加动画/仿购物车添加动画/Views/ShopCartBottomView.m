@@ -152,10 +152,11 @@
 
 #pragma mark --- 点击了购物车按钮
 -(void)shopCartButtonClick{
+    _shopCartButton.userInteractionEnabled = NO;
     [self.shopCartSuperView layoutIfNeeded];
     [UIView animateWithDuration:.6f animations:^{
         [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
-            make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10 - (orderViewMaxHeight >= self.orderCount * 44 ? self.orderCount * 44 : orderViewMaxHeight) - bottomToolBarH);
+            make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset((-10 - (orderViewMaxHeight >= self.orderCount * 44 ? self.orderCount * 44 : orderViewMaxHeight) - bottomToolBarH));
         }];
         
         [_totalPriceLabel mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -167,6 +168,7 @@
     __weak typeof(self) weakSelf = self;
     [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(BOOL ishideView , BOOL isClickAddBtn , NSMutableArray * array) {
         if (ishideView) {
+            _shopCartButton.userInteractionEnabled = YES;
             [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{
                 [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {

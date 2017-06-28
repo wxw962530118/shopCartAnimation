@@ -56,9 +56,8 @@
     if (self.goodsModelArray.count) {
         if (!self.goodsModelArray[indexPath.row].orderCount) {
             [self.goodsModelArray removeObject:self.goodsModelArray[indexPath.row]];
-            NSInteger  orderCount = self.goodsModelArray.count;
             [self.orderTableView mas_updateConstraints:^(MASConstraintMaker *make) {
-                make.height.mas_equalTo(orderCount * 44);
+                make.height.mas_equalTo(orderViewMaxHeight >= self.goodsModelArray.count * 44 ? self.goodsModelArray.count * 44 : orderViewMaxHeight);
             }];
         }
         if (self.Block) {

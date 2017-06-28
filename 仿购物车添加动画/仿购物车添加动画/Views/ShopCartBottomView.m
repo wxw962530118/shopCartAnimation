@@ -168,7 +168,9 @@
     __weak typeof(self) weakSelf = self;
     [ShopCartOrderView showShopCartOrderViewWithShopCartSuperView:self.shopCartSuperView goodsModel:self.orderDataArray ShopCartViewBlock:^(BOOL ishideView , BOOL isClickAddBtn , NSMutableArray * array) {
         if (ishideView) {
-            _shopCartButton.userInteractionEnabled = YES;
+            if (array.count) {
+                _shopCartButton.userInteractionEnabled = YES;
+            }
             [self.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{
                 [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
@@ -190,7 +192,7 @@
             [weakSelf.shopCartSuperView layoutIfNeeded];
             [UIView animateWithDuration:.6f animations:^{
                 [_shopCartButton mas_updateConstraints:^(MASConstraintMaker *make) {
-                    make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10 - self.orderCount * 44 - bottomToolBarH);
+                    make.bottom.equalTo(_shopCartButton.superview.mas_bottom).offset(-10 - (self.orderCount * 44 >= orderViewMaxHeight ? orderViewMaxHeight:self.orderCount * 44) - bottomToolBarH);
                 }];
                 [weakSelf.shopCartSuperView layoutIfNeeded];
             }];
